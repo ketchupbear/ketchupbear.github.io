@@ -1,0 +1,184 @@
+	body {
+		font-family: "Droid Sans", "Helvetica", "Arial", sans-serif;
+		padding: 0;
+		margin: 30px 0 50px 0;
+		margin-top:30px;
+		color:#4A4A4A;
+		background-color: #fdfdfd;
+	}
+
+	div.portrait{
+		margin: auto;
+		width: 85%;
+		max-width: 750px;
+		height: auto;
+		min-height: 800px; 
+		background-image: url(../images/rs-bio-2x.jpg);
+		background-position: top;
+		background-size: contain;
+		background-repeat: no-repeat;
+		position: inherit;
+	}
+
+	div.info{
+		margin: auto;
+		margin-top:-300px;
+		width: 70%;
+		max-width: 520px;
+		min-width:320px; 
+		height: auto;
+		padding: 50px 50px 100px 50px;
+		background-color:#DED886;
+		position: inherit;
+/*		transform: rotate(-1deg);*/
+	}
+
+	h1{
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 2.5rem;
+		padding: 0;
+		margin: 0;
+/*		transform: rotate(1deg);*/
+	}
+
+ 	p{
+		font-size: 1.1rem;
+		line-height: 1.5rem;
+/*		transform: rotate(1deg);*/
+	}
+
+	a{
+		text-decoration: underline;
+		color:#4A4A4A;
+	}
+
+	a:hover{
+		text-decoration: none;
+	}
+
+	a.button {
+		width: auto;
+		margin-top:10px;
+		padding: 20px;
+		color: blue;
+		text-align: center;
+		display: inline-block;
+		border: 1px;
+		font-family: "Droid Sans";
+		font-weight: 700;
+		font-size: .8rem;
+		color: #f5f5f5;
+		background-color: #4A4A4A;
+		float: left;
+		position: relative;
+		text-decoration: none;
+/*		transform: rotate(1deg);*/
+	}
+
+	a.button:hover {
+		color: #4A4A4A;
+		background-color: #C9C378;
+	}
+
+	div.social{
+		float:right;
+	}
+
+	ul{
+		list-style-type: none;
+		padding: 0;
+		margin-top:25px;
+		display: inline-block;
+/*		transform: rotate(1deg);*/
+	}
+
+	li {
+		display: inline;
+		font-size: 1.7rem;
+		margin-right: 20px;
+	}
+
+	li:last-child{
+		margin-right: 10px;
+	}
+
+	i{
+		color: #4A4A4A;
+	}
+
+	i:hover{
+		color: #C1BB72;
+
+	}
+
+	i:visted{
+		color: #4A4A4A;
+	}
+
+
+/*Mainly to fix the portrait and realign information*/
+
+@media (max-width: 600px) {
+
+	body{
+		margin: 20px 0 20px 0;
+	}
+
+	div.portrait{
+		margin: auto;
+		width: 90%;
+		max-width:480px;
+		min-width: 320px:  
+		height: 200px;
+		min-height: 400px;
+		background-image: url(../images/rs-bio-2x.jpg);
+		background-position: top;
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+
+	div.info{
+		margin: auto;
+		margin-top:-100px;
+		width: 75%;
+		min-width: 270px;
+		height: auto;
+		padding: 20px 20px 100px 20px;
+		background-color:#DED886;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
+
+	p {
+		font-size: 1rem;
+	}
+
+}
+
+/*Mobile-ish sized devices - remove the rotation*/
+
+@media (max-width: 360px) {
+	
+	div.info{
+		transform: rotate(0deg);
+	}
+
+	h1 {
+		transform: rotate(0deg);
+	}
+
+	p{
+		transform: rotate(0deg);
+	}
+
+	a.button{
+		transform: rotate(0deg);
+	}
+
+	ul{
+		transform: rotate(0deg);
+	}
+}
