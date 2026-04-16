@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryan Stinson — Design Systems Leadership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋🏼</text></svg>" />
+  <style>
+    :root {
+      --bg:           #f9f9f7;
+      --surface:      #ffffff;
+      --text:         #1a1a1a;
+      --text-muted:   #666663;
+      --accent:       #2563eb;
+      --border:       #e5e5e1;
+      --feature-bg:   #f0f0ed;
+      --outcome-bg:   #ffffff;
+      --outcome-text: #c2410c;
+      --quote-bg:     #f0f0ed;
+    }
+
+    [data-theme="dark"] {
+      --bg:           #0d0d0f;
+      --surface:      #161618;
+      --text:         #e5e5e0;
+      --text-muted:   #888883;
+      --accent:       #3b82f6;
+      --border:       #2a2a2c;
+      --feature-bg:   #111113;
+      --outcome-bg:   #161618;
+      --outcome-text: #fb923c;
+      --quote-bg:     #1a1a1c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ─── Nav ─────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text);
+    }
+
+    #theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    #theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── Container ───────────────────────────── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ─── Hero ────────────────────────────────── */
+    .hero {
+      padding: 100px 0 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.3rem, 10vw, 7.25rem);
+      line-height: 0.88;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 48px;
+      color: var(--text);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .hero-intro {
+      font-size: 19px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .manifesto {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+      margin-top: 28px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      padding-top: 6px;
+    }
+
+    /* ─── Shared section styles ───────────────── */
+    .label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .case-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 40px;
+    }
+
+    .body-text {
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .body-text:last-of-type { margin-bottom: 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    /* ─── Design Philosophy ──────────────────── */
+    .philosophy {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .philosophy-card {
+      padding: 0;
+    }
+
+    /* ─── Oracle: Featured/Editorial ─────────── */
+    .case-featured {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .featured-inner {
+      background: var(--feature-bg);
+      margin: 0 -40px;
+      padding: 56px 40px 80px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Image placeholder */
+    .img-placeholder {
+      width: calc(100% + 80px);
+      margin: -80px -40px 60px;
+      aspect-ratio: 16 / 7;
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 56px;
+      color: var(--text-muted);
+    }
+
+    .case-title-lg {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .case-title-sm {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* ─── Standard case section ───────────────── */
+    .case-standard {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── Infographics ────────────────────────── */
+    .infographic {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 32px;
+    }
+
+    .infographic-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Contrast cards */
+    .contrast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .contrast-card {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .contrast-swatch {
+      height: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 0 10px;
+    }
+
+    .phase-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .sample-text {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .contrast-meta {
+      background: var(--surface);
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .contrast-meta .pct {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .contrast-meta .desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Culture Pillars */
+    .culture-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .pillar-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 14px;
+      letter-spacing: -0.04em;
+      opacity: 0.35;
+    }
+
+    .pillar-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .pillar-body {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Auvik SVG dark mode ────────────────── */
+    #auvik-flow-container svg {
+      width: 100%;
+      height: auto;
+    }
+
+    [data-theme="dark"] #auvik-flow-container line {
+      stroke: #6b7280;
+    }
+
+    [data-theme="dark"] #auvik-flow-container path[stroke="black"] {
+      stroke: #6b7280;
+    }
+
+    [data-theme="dark"] #auvik-flow-container path[fill="#FCFCFC"] {
+      fill: #1f2937;
+    }
+
+    [data-theme="dark"] #auvik-flow-container path[fill="#202020"] {
+      fill: #e5e7eb;
+    }
+
+    [data-theme="dark"] #auvik-flow-container path[fill="#666666"] {
+      fill: #9ca3af;
+    }
+
+    [data-theme="dark"] #auvik-flow-container path[fill="#ECECEC"],
+    [data-theme="dark"] #auvik-flow-container rect[fill="#ECECEC"] {
+      fill: #374151;
+    }
+
+    /* ─── AI pill ────────────────────────────── */
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: #ede9fe;
+      color: #6d28d9;
+      margin-bottom: 10px;
+    }
+    [data-theme="dark"] .ai-pill {
+      background: #2e1065;
+      color: #c4b5fd;
+    }
+
+    /* ─── Donut chart ────────────────────────── */
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 10px 0 4px;
+      flex-wrap: wrap;
+    }
+    .donut-wrap svg {
+      width: min(300px, 100%);
+      height: auto;
+      flex-shrink: 0;
+    }
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .donut-leg-item { display: flex; flex-direction: column; gap: 3px; }
+    .donut-pct {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .donut-leg-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    /* ─── Metrics bar ────────────────────────── */
+    .metrics-bar {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 28px 0 48px;
+    }
+    .metric-item {
+      flex: 1;
+      padding: 14px 20px;
+      border-right: 1px solid var(--border);
+    }
+    .metric-item:last-child { border-right: none; }
+    .metric-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .metric-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .metric-status::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .metric-status.in-progress { color: #d97706; }
+    .metric-status.in-progress::before { background: #d97706; }
+    .metric-status.shipped { color: #10b981; }
+    .metric-status.shipped::before { background: #10b981; }
+
+    /* ─── Outcome box ─────────────────────────── */
+    .outcome-box {
+      margin-top: 40px;
+      padding: 28px 32px;
+      background: var(--outcome-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .outcome-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--outcome-text);
+    }
+
+    /* ─── Quote block ─────────────────────────── */
+    .quote-block {
+      background: var(--quote-bg);
+      padding: 32px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .quote-block p {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .quote-block p:last-of-type { margin-bottom: 0; }
+
+    .quote-author {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-top: 20px;
+      font-style: normal;
+    }
+
+    /* ─── Footer ──────────────────────────────── */
+    footer {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .footer-cta {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-email {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: color 0.2s ease;
+    }
+
+    .footer-email:hover { color: var(--accent); }
+
+    /* ─── Responsive ──────────────────────────── */
+    @media (max-width: 860px) {
+      .grid-2, .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .container { padding: 0 24px; }
+      .featured-inner { margin: 0 -24px; padding: 40px 24px 60px 24px; }
+      .img-placeholder { width: calc(100% + 48px); margin: -60px -24px 40px; }
+      .nav-inner { padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">Ryan Stinson</div>
+      <button id="theme-toggle">Switch Appearance</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- ─── Hero ─────────────────────────────── -->
+    <header class="hero">
+      <h1>Design Leader at ❤️</h1>
+      <div class="hero-grid">
+        <div>
+          <p class="hero-intro">I started my career 20 years ago as a designer, working in advertising, brand, and UX, before moving into product management. For the past several years, my work has centred on design systems, UX platforms, as well as the people and structures that help design teams operate at scale.</p>
+<!--          <p class="manifesto">I crossed from design into product, and never stopped thinking like both.</p> -->
+        </div>
+        <p class="hero-sub">I&rsquo;ve ran critiques, defined governance, and filled the design leadership gap when the org didn&rsquo;t have one. This portfolio documents three of those experiences.</p>
+      </div>
+    </header>
+
+    <!-- ─── Design Philosophy ───────────────── -->
+    <section class="philosophy">
+      <span class="label">My Design Philosophy</span>
+      <div class="philosophy-grid">
+        <div class="philosophy-card">
+          <div class="pillar-number">01</div>
+          <p class="pillar-heading">I protect the teams I work with</p>
+          <p class="pillar-body">I coach designers toward their own answers rather than handing them mine because the goal is for them to own the solution, not deliver mine. Trust is built by being consistent, being present, and making space for people to grow.</p>
+        </div>
+        <div class="philosophy-card">
+          <div class="pillar-number">02</div>
+          <p class="pillar-heading">Design starts before anyone opens Figma</p>
+          <p class="pillar-body">I spend more time listening than making: to customers, to teams, to data. Because the quality of what gets built is only as good as what&rsquo;s understood first. Empathy isn&rsquo;t a soft skill. It&rsquo;s the foundation.</p>
+        </div>
+        <div class="philosophy-card">
+          <div class="pillar-number">03</div>
+          <p class="pillar-heading">I don&rsquo;t chase fads</p>
+          <p class="pillar-body">Platform-level design demands restraint: the right component in the right place, built to last. AI belongs in the toolkit for efficiency and consistency, but it can&rsquo;t replace what designers bring: the empathy to understand a problem and the creativity to solve it in ways customers didn&rsquo;t know to ask for.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── Oracle: Featured/Editorial ───────── -->
+    <section class="case-featured">
+      <span class="label">01 &nbsp;/&nbsp; Enterprise Design Systems</span>
+      <h2 class="case-title-lg">Theming at Scale:<br>Oracle Redwood<br>Design System</h2>
+      <p class="case-meta">Oracle &nbsp;&middot;&nbsp; 2023&ndash;Present &nbsp;&middot;&nbsp; Thousands of enterprise customers</p>
+
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-label">Scale</div>
+          <div class="metric-value">Millions of users</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Analysis</div>
+          <div class="metric-value">16.7M hex values swept</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Status</div>
+          <div class="metric-status in-progress">In Progress</div>
+        </div>
+      </div>
+
+      <div class="featured-inner">
+
+        <!-- Replace this div with an <img> tag when ready -->
+        <div class="img-placeholder">
+          <img src="images/appearance-editor.png" width=100%;>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <p class="body-text">Oracle&rsquo;s Fusion Applications service was moving from their legacy theming (Classic) to Redwood Custom themes, which meant defining how each customer&rsquo;s brand identity would be thoughtfully applied across high-impact UI components automatically. The platform serves enterprise and government organizations with tightly controlled brand guidelines and accessibility mandates. Getting this wrong at that scale isn&rsquo;t just a design problem, it&rsquo;s also a customer trust problem.</p>
+            <p class="body-text">Before escalating internally, I showed real customers their newly branded interface and captured their reactions directly. A targeted moment of user evidence that shifted the conversation from instinct to fact. From there, I built the case for remediation using data from real customer brand materials and WCAG contrast thresholds, then designed a segmentation strategy that covered the full customer base before the issue escalated.</p>
+            <p class="body-text">Throughout the design work, I kept the team accountable to the existing Redwood component library rather than allowing custom solutions. The goal was coherence with the broader platform: new theming capability that felt native, not bolted on. That constraint also informed the broader strategy: guidelines for both internal product teams and customers that gave people the ability to make confident, standards-compliant decisions independently, without routing every configuration back through the design system team.</p>
+            <p class="body-text">As part of crafting our revised solution, the design team was responsible for defining our contrast thresholds but hadn&rsquo;t been able to land on an concrete answer. Rather than wait, I used Codex to build the analysis myself, sweeping all 16.7 million possible hex values to map which colours would pass or fail, then ingesting real customer colour data to classify each account by risk. The critical finding: applying pure black or white text at 100% as a fallback would ensure every customer&rsquo;s primary colour passed contrast in Fusion, eliminating critical risk across all customer accounts and giving the team the answer they needed.</p>
+          </div>
+          <div>
+            <div class="infographic">
+              <div class="infographic-title">Brand colour application logic: WCAG 4.5:1 contrast threshold</div>
+              <div class="contrast-grid">
+
+                <div class="contrast-card">
+                  <div class="contrast-swatch" style="background:#1e40af;">
+                    <span class="phase-tag" style="color:#bfdbfe;">Phase 1</span>
+                    <span class="sample-text" style="color:#f0f9ff;">Brand colour</span>
+                  </div>
+                  <div class="contrast-meta">
+                    <div class="pct">~85%</div>
+                    <div class="desc">Dark primaries / near-white text</div>
+                  </div>
+                </div>
+
+                <div class="contrast-card">
+                  <div class="contrast-swatch" style="background:#fbbf24;">
+                    <span class="phase-tag" style="color:#78350f;">Phase 2</span>
+                    <span class="sample-text" style="color:#1c1917;">Brand colour</span>
+                  </div>
+                  <div class="contrast-meta">
+                    <div class="pct">~13%</div>
+                    <div class="desc">Light primaries / near-black text</div>
+                  </div>
+                </div>
+
+                <div class="contrast-card">
+                  <div class="contrast-swatch" style="background:#71717a;">
+                    <span class="phase-tag" style="color:#e4e4e7;">Phase 3</span>
+                    <span class="sample-text" style="color:#ffffff;">Brand colour</span>
+                  </div>
+                  <div class="contrast-meta">
+                    <div class="pct">~2%</div>
+                    <div class="desc">Edge cases / true white or black</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="infographic" style="margin-top: 12px;">
+              <div class="ai-pill">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Codex-assisted
+              </div>
+              <div class="infographic-title">Customer impact analysis: % of base</div>
+              <div class="donut-wrap">
+                <svg id="risk-donut-chart" width="300" height="300" viewBox="0 0 160 160"></svg>
+                <div class="donut-legend">
+                  <div class="donut-leg-item">
+                    <div class="donut-pct" style="color:#34d399;">91.2%</div>
+                    <div class="donut-leg-label">Low risk</div>
+                  </div>
+                  <div class="donut-leg-item">
+                    <div class="donut-pct" style="color:#c084fc;">8.4%</div>
+                    <div class="donut-leg-label">Medium risk</div>
+                  </div>
+                  <div class="donut-leg-item">
+                    <div class="donut-pct" style="color:#fb7185;">0.4%</div>
+                    <div class="donut-leg-label">High risk</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="outcome-box">
+        <p class="outcome-text">The contrast analysis, segmentation strategy, and customer risk classification are complete, providing the team a principled, data-backed framework for rolling out accessibility-compliant brand application across to our customers before issues surface at scale.</p>
+      </div>
+    </section>
+
+    <!-- ─── Auvik: Standard ───────────────────── -->
+    <section class="case-standard">
+      <span class="label">02 &nbsp;/&nbsp; Design System Governance</span>
+      <h2 class="case-title-sm">Contribution Framework:<br>Auvik Iceberg</h2>
+      <p class="case-meta">Auvik &nbsp;&middot;&nbsp; 2023 &nbsp;&middot;&nbsp; Centralized design system serving four product teams</p>
+
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-label">Baseline</div>
+          <div class="metric-value">6.2/10 contributor score</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Scale</div>
+          <div class="metric-value">4 product teams</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Status</div>
+          <div class="metric-status shipped">Shipped</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <p class="body-text">Iceberg, Auvik&rsquo;s design system, had a contribution problem. Engineers were building in the wrong place. Design and engineering had no shared language for what belonged in the system versus what didn&rsquo;t. Documentation tooling was unresolved. Contributors rated the workflow at 6.2 out of 10, a number that reflects a team running on informal process and individual judgment instead of structure.</p>
+          <p class="body-text">Before designing any process, I interviewed contributors across design and engineering to understand where the existing workflow was breaking down. What surfaced was specific: no formal review process, no component ownership clarity, no shared decision point for what belonged in the system at all. From those findings I designed two versions of the governance process: a community-facing version for product teams and an internal PUI version with clear RACI at each stage, alongside the Iceberg/Snowflake/Recipe classification framework and a structured tool evaluation that led to adopting Supernova over Zeroheight.</p>
+          <p class="body-text">The work extended beyond process. With no functional design leadership on the team, I stepped into that gap, running regular critique sessions with the junior designer, giving structured feedback and direction without taking over the work. The goal was for her to own the solutions, not deliver mine. I also aligned both eng leads on the contribution standards throughout, ensuring the process had shared ownership rather than sitting in design alone.</p>
+        </div>
+        <div>
+          <div class="quote-block">
+            <p>&ldquo;Ryan is always willing to take ownership of finding answers to questions that are beyond the normal reach of the team (product/design/executive/etc.)&rdquo;</p>
+            <p>&ldquo;Ryan has leveraged his design background to deliver valuable feedback on design work, and bridge the design &amp; engineering sides of the design system. He&rsquo;s generous with his time and knowledge, has shown he&rsquo;s a team player and is invested in the success of UX &amp; Auvik overall.&rdquo;</p>
+            <span class="quote-author">&mdash; Peer review cycle, Auvik (anonymous reviewers)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="infographic" style="margin-top: 32px;">
+        <div class="infographic-title">Component classification: Iceberg / Snowflake / Recipe</div>
+        
+        <div id="auvik-flow-container" style="width: 90%; margin: auto;"></div>
+      </div>
+
+      <div class="outcome-box">
+        <p class="outcome-text">For the first time, the question &ldquo;does this belong in the design system?&rdquo; had a structural answer. A shared component language, a clear path from request to release, and a documentation platform in active development, all established before I left.</p>
+      </div>
+    </section>
+
+    <!-- ─── Dyspatch: Standard ────────────────── -->
+    <section class="case-standard" style="border-bottom: none;">
+      <span class="label">03 &nbsp;/&nbsp; Team Leadership</span>
+      <h2 class="case-title-sm">From Designer to Director:<br>Building a Team at Dyspatch</h2>
+      <p class="case-meta">Dyspatch &nbsp;&middot;&nbsp; 2017&ndash;2022 &nbsp;&middot;&nbsp; Developing a design culture in an engineering environment</p>
+
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-label">Scale</div>
+          <div class="metric-value">4-person team · 5 years overall</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Impact</div>
+          <div class="metric-value">2 promotions · 0 post-layoff attrition</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Status</div>
+          <div class="metric-status shipped">Shipped</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <p class="body-text">I was hired as Dyspatch&rsquo;s first Product Designer and within a year was carrying product management responsibilities alongside it. Not a formal promotion, just how small companies work. Over five years I was promoted twice, eventually becoming Director of Product and leading a four-person team of PMs and designers. Going from doing the work myself to leading the people who did it is where most of what I believe about design leadership came from.</p>
+          <p class="body-text">There was no design culture when I arrived, just a product that needed one. I built a design system to establish shared language and consistent craft across the team. Beyond that, I started bringing engineers onto customer calls &mdash; not as observers, but as participants who heard the same frustrations firsthand. It changed how they thought about what they were building. When empathy lives across a team instead of just inside design, the product reflects it.</p>
+          <p class="body-text">Working in a fast-moving startup meant the environment was often ambiguous and always a bit chaotic, which made deliberate leadership more important, not less. I focused on teaching people to think in problems rather than features: 1:1s built around growth, coaching that pushed back on scope creep, retros that kept team health visible. Two people on the team were promoted during my tenure. After a hard round of layoffs, there was zero attrition. The culture held because it had stopped being just mine.</p>
+        </div>
+
+        <div>
+          <div class="quote-block">
+            <p>&ldquo;Ryan already has a lot of trust with his new reports. I&rsquo;ve seen him transition confidently from peer to manager &mdash; a challenging transition &mdash; very quickly.&rdquo;</p>
+            <p>&ldquo;Ryan cares deeply about team health. He&rsquo;s been a big advocate for ensuring retros are done to capture team sentiment and prevent issues from growing. He has a strong understanding of the importance of motivation in building effective teams.&rdquo;</p>
+            <span class="quote-author">&mdash; Peer review cycle, Dyspatch (anonymous reviewers)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="culture-pillars">
+        <div>
+          <div class="pillar-number">01</div>
+          <div class="pillar-heading">Systems Over Heroics</div>
+          <p class="pillar-body">Built a design system to establish shared language and consistent craft in a fast-moving, engineering-first environment.</p>
+        </div>
+        <div>
+          <div class="pillar-number">02</div>
+          <div class="pillar-heading">Everyone in the Room</div>
+          <p class="pillar-body">Brought engineers onto customer calls so empathy wasn&rsquo;t siloed inside design. It became something the whole team carried.</p>
+        </div>
+        <div>
+          <div class="pillar-number">03</div>
+          <div class="pillar-heading">The Culture Holds</div>
+          <p class="pillar-body">Two promotions, zero post-layoff attrition. The culture outlasted the hard moments because it had stopped being just mine.</p>
+        </div>
+      </div>
+
+      <div class="outcome-box">
+        <p class="outcome-text">A difficult round of layoffs tested everything we&rsquo;d built. The product team of four had zero attrition. The culture held.</p>
+      </div>
+    </section>
+
+  </div><!-- /container -->
+
+  <!-- ─── Footer ──────────────────────────────── -->
+  <footer>
+    <span class="footer-cta">There&rsquo;s a lot more to each of these stories. Reach out and let&rsquo;s chat:</span>
+    <a href="mailto:ryan.stinson@gmail.com" class="footer-email">ryan.stinson@gmail.com</a>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('theme-toggle');
+    btn.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+    });
+
+    // ── Auvik SVG inline (enables dark mode CSS) ──
+    (function () {
+      const container = document.getElementById('auvik-flow-container');
+      if (!container) return;
+      fetch('images/auvik-flow.svg')
+        .then(r => r.text())
+        .then(svgText => {
+          container.innerHTML = svgText;
+        })
+        .catch(() => {
+          const img = document.createElement('img');
+          img.src = 'images/auvik-flow.svg';
+          img.alt = 'Component classification flowchart: Iceberg, Snowflake, Recipe';
+          img.style.width = '100%';
+          container.appendChild(img);
+        });
+    })();
+
+    // ── Donut chart ──────────────────────────────
+    (function () {
+      const svg = document.getElementById('risk-donut-chart');
+      if (!svg) return;
+      const cx = 80, cy = 80, outerR = 72, innerR = 50;
+      const segments = [
+        { pct: 0.912, color: '#34d399' },
+        { pct: 0.084, color: '#c084fc' },
+        { pct: 0.004, color: '#fb7185' }
+      ];
+
+      function pt(r, deg) {
+        const rad = (deg - 90) * Math.PI / 180;
+        return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+      }
+
+      function drawSegment(startDeg, endDeg, color) {
+        const [x1, y1] = pt(outerR, startDeg);
+        const [x2, y2] = pt(outerR, endDeg);
+        const [x3, y3] = pt(innerR, endDeg);
+        const [x4, y4] = pt(innerR, startDeg);
+        const large = (endDeg - startDeg > 180) ? 1 : 0;
+        const d = `M${x1},${y1} A${outerR},${outerR} 0 ${large} 1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 ${large} 0 ${x4},${y4}Z`;
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', color);
+        svg.appendChild(path);
+      }
+
+      const GAP = 2;
+      let start = 0;
+      segments.forEach(seg => {
+        const span = seg.pct * 360;
+        drawSegment(start + GAP / 2, start + span - GAP / 2, seg.color);
+        start += span;
+      });
+    })();
+  </script>
+
+</body>
+</html>
