@@ -17,6 +17,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋🏼</text></svg>" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('jV-eQu6MdSOIHJtoG');</script>
   <style>
     :root {
       --bg:           #f9f9f7;
@@ -555,15 +557,6 @@
     }
   </style>
 </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KDJM3YX94L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-KDJM3YX94L');
-</script>
 <body>
 
   <!-- ─── Password Gate ────────────────────────── -->
@@ -915,13 +908,24 @@
         gate.style.display = 'none';
       }
 
+      function sendAlert(status) {
+        emailjs.send('service_aac8n5e', 'template_hp0vacl', {
+          status: status,
+          time: new Date().toLocaleString('en-CA', { dateStyle: 'full', timeStyle: 'short' }),
+          name: 'Portfolio Alert',
+          email: 'noreply@portfolio'
+        });
+      }
+
       window.checkPassword = function () {
         if (input.value === PASSWORD) {
+          sendAlert('✅ Correct password — portfolio unlocked');
           sessionStorage.setItem('portfolio_unlocked', '1');
           gate.style.opacity = '0';
           gate.style.transition = 'opacity 0.3s ease';
           setTimeout(() => gate.style.display = 'none', 300);
         } else {
+          sendAlert('❌ Incorrect attempt — "' + input.value + '" entered');
           error.style.display = 'block';
           input.value = '';
           input.focus();
